@@ -5,6 +5,8 @@
  */
 package ec.edu.ister.vista;
 
+import ec.edu.ister.controlador.Coordinador;
+import ec.edu.ister.modelo.Persona;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class personal extends javax.swing.JFrame {
     DefaultTableModel dtm= new DefaultTableModel();
+    Coordinador cor=new Coordinador();
     /**
      * Creates new form personal
      */
@@ -23,12 +26,23 @@ public class personal extends javax.swing.JFrame {
         String[] titulos=new String[]{"Cédula","Nombre","Apellido","Dirección","Fecha de Nacimiento","E-mail"};
         dtm.setColumnIdentifiers(titulos);
         tblDatos.setModel(dtm);
-    } 
+        activar(false);
+    }
+    
+    public void activar(boolean k){
+        btnAct.setEnabled(k);
+        btnElim.setEnabled(k);
+        btnLimpiar.setEnabled(k);
+    }
     
     public void agregar(){
+        cor.setAgregar(new Persona(txtCI.getText(),txtNombre.getText(),
+            TXTaPELLIDO.getText(),txtDireccion.getText(),
+            txtFecha.getText(),txtEmail.getText()));
         dtm.addRow(new Object[]{txtCI.getText(),txtNombre.getText(),
             TXTaPELLIDO.getText(),txtDireccion.getText(),
-            txtFecha.getText(),txtEmail.getText()});   
+            txtFecha.getText(),txtEmail.getText()}); 
+        
     }
     
     public void eliminar(){
@@ -86,6 +100,7 @@ public class personal extends javax.swing.JFrame {
         }
     }
     
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -114,10 +129,13 @@ public class personal extends javax.swing.JFrame {
         btnElim = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        btnTamArr = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDatos = new javax.swing.JTable();
+        btnBuscar = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -268,6 +286,13 @@ public class personal extends javax.swing.JFrame {
             }
         });
 
+        btnTamArr.setText("TAMAÑO DEL ARREGLO");
+        btnTamArr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTamArrActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -279,7 +304,8 @@ public class personal extends javax.swing.JFrame {
                     .addComponent(btnAct)
                     .addComponent(btnElim)
                     .addComponent(btnSalir)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnTamArr))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -293,9 +319,11 @@ public class personal extends javax.swing.JFrame {
                 .addComponent(btnElim)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLimpiar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTamArr)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -338,6 +366,8 @@ public class personal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblDatos);
 
+        btnBuscar.setText("BUSCAR");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -354,6 +384,12 @@ public class personal extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addComponent(btnBuscar)
+                .addGap(38, 38, 38)
+                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,12 +397,16 @@ public class personal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscar)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
         );
 
         pack();
@@ -384,6 +424,7 @@ public class personal extends javax.swing.JFrame {
         }else{
             agregar();
             limpiar();
+            activar(true);
         }
     }//GEN-LAST:event_btnIngActionPerformed
 
@@ -411,7 +452,7 @@ public class personal extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiar();
         llenarTexto();
-        tblDatos.setEnabled(false);
+        //tblDatos.setEnabled(false);
     }//GEN-LAST:event_tblDatosMouseClicked
 
     private void txtCIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCIKeyTyped
@@ -465,6 +506,11 @@ public class personal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtEmailKeyTyped
 
+    private void btnTamArrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamArrActionPerformed
+        // TODO add your handling code here:
+        cor.imprimir();
+    }//GEN-LAST:event_btnTamArrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -503,10 +549,12 @@ public class personal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TXTaPELLIDO;
     private javax.swing.JButton btnAct;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnElim;
     private javax.swing.JButton btnIng;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnTamArr;
     private javax.swing.JLabel ibnDirec;
     private javax.swing.JLabel inbCI;
     private javax.swing.JLabel jLabel1;
@@ -519,6 +567,7 @@ public class personal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDatos;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCI;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
